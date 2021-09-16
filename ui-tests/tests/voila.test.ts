@@ -110,7 +110,10 @@ test.describe('Voila performance Tests', () => {
       );
     };
     await addBenchmarkToTest(notebookName, testFunction, testInfo, browserName);
-    expect(await page.screenshot()).toMatchSnapshot(`${notebookName}.png`);
+    const title = await page.$(
+      'div.jupyter-matplotlib-figure > div.jupyter-widgets.widget-label'
+    );
+    expect(await title.innerHTML()).toContain('Figure 1');
   });
 
   test('Render and benchmark ipyvolume.ipynb', async ({
