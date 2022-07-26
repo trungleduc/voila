@@ -102,7 +102,7 @@ jobs:
         # tests if voila sends a 'heartbeat' to avoid proxies from closing an apparently stale connection
         # Note that wget is the only easily available software that has a read-timeout
         voila tests/notebooks/sleep10seconds.ipynb --port=8878 --VoilaConfiguration.http_keep_alive_timeout=2 &
-        sleep 2
+        sleep 5
         wget --read-timeout=5 --tries=1 http://localhost:8878
 
   test-win:
