@@ -19,7 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        python_version: ['3.7', '3.8', '3.9', '3.10']
+        python_version: ['3.7', '3.9']
 
     steps:
     - uses: actions/checkout@v2
@@ -29,10 +29,11 @@ jobs:
       with:
         mamba-version: "*"
         channels: conda-forge
+        miniconda-version: latest
 
     - name: Create the conda environment
       shell: bash -l {0}
-      run: mamba install -q python=${{ matrix.python_version }} pip jupyterlab_pygments==0.1.0 pytest-cov pytest-rerunfailures nodejs yarn flake8 ipywidgets matplotlib xeus-cling openssl=1.1.1l "traitlets>=5.0.3,<6"
+      run: mamba install -q python=${{ matrix.python_version }} pip jupyterlab_pygments==0.1.0 pytest-cov pytest-rerunfailures nodejs yarn flake8 ipywidgets matplotlib xeus-cling openssl=1.1.1l "traitlets>=5.0.3,<6" pytest-timeout
 
     - name: Install dependencies
       shell: bash -l {0}
@@ -47,7 +48,7 @@ jobs:
     - name: Run tests
       shell: bash -l {0}
       run: |
-        VOILA_TEST_XEUS_CLING=1 py.test tests/ --async-test-timeout=240 --reruns 2 --reruns-delay 1 -svx
+        VOILA_TEST_XEUS_CLING=1 py.test tests --async-test-timeout=240 -svx
         voila --help  # Making sure we can run `voila --help`
         # tests if voila sends a 'heartbeat' to avoid proxies from closing an apparently stale connection
         # Note that wget is the only easily available software that has a read-timeout
