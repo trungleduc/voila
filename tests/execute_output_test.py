@@ -5,7 +5,7 @@ from voila.execute import executenb
 from nbformat import read, NO_CONVERT
 
 from copy import deepcopy
-import pytest
+
 
 BASE_DIR = os.path.dirname(__file__)
 WIDGET_MIME_TYPE_VIEW = 'application/vnd.jupyter.widget-view+json'
@@ -34,7 +34,7 @@ def normalize_outputs(outputs):
     for output in outputs:
         normalize_output(output)
 
-@pytest.mark.skip()
+
 def test_execute_output():
     path = os.path.join(BASE_DIR, 'notebooks/output.ipynb')
     nb = read(path, NO_CONVERT)

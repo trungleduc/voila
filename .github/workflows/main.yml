@@ -48,7 +48,7 @@ jobs:
     - name: Run tests
       shell: bash -l {0}
       run: |
-        VOILA_TEST_XEUS_CLING=1 py.test tests --async-test-timeout=240 -svx
+        VOILA_TEST_XEUS_CLING=1 py.test tests/execute_output_test.py --async-test-timeout=240 -svx --timeout=60
         voila --help  # Making sure we can run `voila --help`
         # tests if voila sends a 'heartbeat' to avoid proxies from closing an apparently stale connection
         # Note that wget is the only easily available software that has a read-timeout
