@@ -34,7 +34,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
 ]
 dependencies = [
-    "jupyter_client @ git+https://github.com/trungleduc/jupyter_client@04c55dfbba4dd7fd7ae960690d2c77e47eedd239",
+    "jupyter_client @ git+https://github.com/trungleduc/jupyter_client@561bcc1ae0da23bbe2eb77b36074e162e9e72e8e",
     "jupyter_core>=4.11.0",
     "jupyter_server>=1.18,<2.0.0",
     "jupyterlab_server>=2.3.0,<3",
