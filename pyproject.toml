@@ -34,7 +34,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
 ]
 dependencies = [
-    "jupyter_client==7.4.1",
+    "jupyter_client @ git+https://github.com/trungleduc/jupyter_client@5057839717ee683c9ce516ac98237e06e12b8f6d",
     "jupyter_core>=4.11.0",
     "jupyter_server>=1.18,<2.0.0",
     "jupyterlab_server>=2.3.0,<3",
@@ -131,6 +131,9 @@ build_cmd = "build:prod"
 npm = [
     "jlpm",
 ]
+
+[tool.hatch.metadata]
+allow-direct-references = true
 
 [tool.jupyter-releaser]
 skip = [
