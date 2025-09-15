@@ -16,16 +16,7 @@ import { Widget } from '@lumino/widgets';
 
 import { VoilaApp } from '../../app';
 import { RenderedCells } from './renderedcells';
-import {
-  createOutputArea,
-  createSkeleton,
-  executeCode,
-  getExecutionURL,
-  handleExecutionResult,
-  IExecutionMessage,
-  IReceivedWidgetModel
-} from './tools';
-import { SimplifiedOutputArea } from '@jupyterlab/outputarea';
+import { createOutputArea, createSkeleton, executeCode } from './tools';
 
 /**
  * The plugin that renders outputs.

@@ -22,8 +22,6 @@ import webbrowser
 
 from .tornado.kernel_websocket_handler import VoilaKernelWebsocketHandler
 
-from .tornado.execution_request_handler import ExecutionRequestHandler
-
 from .tornado.contentshandler import VoilaContentsHandler
 
 from urllib.parse import urljoin
@@ -788,15 +786,6 @@ class Voila(Application):
                         self.server_url, r"/voila/query/%s" % _kernel_id_regex
                     ),
                     RequestInfoSocketHandler,
-                )
-            )
-        if self.voila_configuration.progressive_rendering:
-            handlers.append(
-                (
-                    url_path_join(
-                        self.server_url, r"/voila/execution/%s" % _kernel_id_regex
-                    ),
-                    ExecutionRequestHandler,
                 )
             )
         # Serving JupyterLab extensions
