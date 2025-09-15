@@ -1,9 +1,15 @@
 import { IOutput } from '@jupyterlab/nbformat';
-import { OutputAreaModel, SimplifiedOutputArea } from '@jupyterlab/outputarea';
+import {
+  OutputArea,
+  OutputAreaModel,
+  SimplifiedOutputArea
+} from '@jupyterlab/outputarea';
 import { IRenderMimeRegistry } from '@jupyterlab/rendermime';
 import { Widget } from '@lumino/widgets';
 import { PageConfig, URLExt } from '@jupyterlab/coreutils';
 import { type VoilaWidgetManager } from '@voila-dashboards/widgets-manager8/lib/manager';
+import { Kernel, KernelMessage } from '@jupyterlab/services';
+import { JSONObject } from '@lumino/coreutils';
 
 /**
  * Interface representing the structure of an execution result message.
@@ -74,7 +80,7 @@ export function handleExecutionResult({
     if (skeleton) {
       element.removeChild(skeleton);
     }
-    const model = createOutputArea({ rendermime, parent: element });
+    const { model } = createOutputArea({ rendermime, parent: element });
     if (!output_cell.outputs) {
       return;
     }
@@ -118,7 +124,7 @@ export function createOutputArea({
 }: {
   rendermime: IRenderMimeRegistry;
   parent: Element;
-}): OutputAreaModel {
+}): { model: OutputAreaModel; area: SimplifiedOutputArea } {
   const model = new OutputAreaModel({ trusted: true });
   const area = new SimplifiedOutputArea({
     model,
@@ -134,14 +140,19 @@ export function createOutputArea({
     'jp-Cell-outputCollapser'
   );
   wrapper.appendChild(collapser);
-  parent.lastElementChild?.appendChild(wrapper);
+  parent.appendChild(wrapper);
   area.node.classList.add('jp-Cell-outputArea');
 
   area.node.style.display = 'flex';
   area.node.style.flexDirection = 'column';
 
   Widget.attach(area, wrapper);
-  return model;
+  area.outputLengthChanged.connect((_, number) => {
+    if (number) {
+      parent.classList.remove('jp-mod-noOutputs');
+    }
+  });
+  return { model, area };
 }
 
 export function createSkeleton(): void {
@@ -152,9 +163,40 @@ export function createSkeleton(): void {
     </div>`;
   const elements = document.querySelectorAll('[cell-index]');
   elements.forEach((it) => {
-    const element = document.createElement('div');
-    element.className = 'voila-skeleton-container';
-    element.innerHTML = innerHtml;
-    it.appendChild(element);
+    const codeCell = it.getElementsByClassName('jp-CodeCell').item(0);
+    if (codeCell) {
+      const element = document.createElement('div');
+      element.className = 'voila-skeleton-container';
+      element.innerHTML = innerHtml;
+      it.appendChild(element);
+    }
   });
+}
+
+export async function executeCode(
+  code: string,
+  output: OutputArea,
+  kernel: Kernel.IKernelConnection | null | undefined,
+  metadata?: JSONObject
+): Promise<KernelMessage.IExecuteReplyMsg | undefined> {
+  // Override the default for `stop_on_error`.
+  let stopOnError = false;
+  if (
+    metadata &&
+    Array.isArray(metadata.tags) &&
+    metadata.tags.indexOf('raises-exception') !== -1
+  ) {
+    stopOnError = false;
+  }
+  const content: KernelMessage.IExecuteRequestMsg['content'] = {
+    code,
+    stop_on_error: stopOnError
+  };
+
+  if (!kernel) {
+    throw new Error('Session has no kernel.');
+  }
+  const future = kernel.requestExecute(content, false, metadata);
+  output.future = future;
+  return future.done;
 }
