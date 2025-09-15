@@ -253,7 +253,7 @@ class VoilaHandler(BaseVoilaHandler):
             kernel_future = self.kernel_manager.get_kernel(kernel_id)
             queue = asyncio.Queue()
             if self.voila_configuration.progressive_rendering:
-                VoilaKernelWebsocketHandler._execution_data[kernel_id] = {
+                VoilaKernelWebsocketHandler._ALL_EXECUTION_DATA[kernel_id] = {
                     "cells": gen.notebook.cells,
                     "config": self.traitlet_config,
                     "show_tracebacks": self.voila_configuration.show_tracebacks,

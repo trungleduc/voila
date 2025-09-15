@@ -716,6 +716,7 @@ class Voila(Application):
             config_manager=self.config_manager,
             mathjax_config=self.mathjax_config,
             mathjax_url=self.mathjax_url,
+            static_path=self.static_root,
         )
         settings[self.name] = self  # Why???
 
