@@ -18,22 +18,24 @@ except ImportError:
 
     JUPYTER_SERVER_2 = False
 
+def read_header_from_binary_message(ws_msg: bytes) -> Optional[Dict]:
+    """Read message header using the v1 protocol."""
+
+    offset_number = int.from_bytes(ws_msg[:8], "little")
+    offsets = [
+        int.from_bytes(ws_msg[8 * (i + 1) : 8 * (i + 2)], "little")
+        for i in range(offset_number)
+    ]
+    try:
+        header = ws_msg[offsets[1] : offsets[2]].decode("utf-8")
+        return json.loads(header)
+    except Exception:
+        return
+
 if JUPYTER_SERVER_2:
     SUPPORTED_SUBPROTOCOL = ["v1.kernel.websocket.jupyter.org"]
 
-    def read_header_from_binary_message(ws_msg: bytes) -> Optional[Dict]:
-        """Read message header using the v1 protocol."""
 
-        offset_number = int.from_bytes(ws_msg[:8], "little")
-        offsets = [
-            int.from_bytes(ws_msg[8 * (i + 1) : 8 * (i + 2)], "little")
-            for i in range(offset_number)
-        ]
-        try:
-            header = ws_msg[offsets[1] : offsets[2]].decode("utf-8")
-            return json.loads(header)
-        except Exception:
-            return
 
     class VoilaKernelWebsocketHandler(WebsocketHandler):
 
