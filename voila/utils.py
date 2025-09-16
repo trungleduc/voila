@@ -138,7 +138,7 @@ def get_page_config(
         "mathjax_url",
         None,
     )
-    print('cvvvvvvvvcccccccccc', settings, mathjax_config, mathjax_url)
+    print("cvvvvvvvvcccccccccc", settings, mathjax_config, mathjax_url)
     page_config.setdefault("mathjaxConfig", mathjax_config)
     page_config.setdefault("fullMathjaxUrl", mathjax_url)
     labextensions_path = get_voila_labextensions_path(

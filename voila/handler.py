@@ -205,7 +205,7 @@ class VoilaHandler(BaseVoilaHandler):
                     **page_config_kwargs,
                     notebook_path=notebook_path,
                 )
-            print('vvvvvvvssvv', page_config)
+            print("vvvvvvvssvv", page_config)
 
             gen = NotebookRenderer(
                 request_handler=self,

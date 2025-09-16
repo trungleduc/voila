@@ -130,13 +130,10 @@ def _load_jupyter_server_extension(server_app: ServerApp):
     labextensions_path = get_voila_labextensions_path(
         voila_configuration.extra_labextensions_path
     )
-    print('conteit', server_app.config)
+    print("conteit", server_app.config)
     handlers = [
-
         (
-            url_path_join(
-                base_url, r"/voila/api/kernels/%s" % _kernel_id_regex
-            ),
+            url_path_join(base_url, r"/voila/api/kernels/%s" % _kernel_id_regex),
             KernelHandler,
         ),
         (
@@ -145,7 +142,6 @@ def _load_jupyter_server_extension(server_app: ServerApp):
             ),
             VoilaKernelWebsocketHandler,
         ),
-                
         (
             url_path_join(base_url, "/voila/render/(.*)"),
             TornadoVoilaHandler,

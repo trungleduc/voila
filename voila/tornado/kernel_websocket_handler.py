@@ -18,6 +18,7 @@ except ImportError:
 
     JUPYTER_SERVER_2 = False
 
+
 def read_header_from_binary_message(ws_msg: bytes) -> Optional[Dict]:
     """Read message header using the v1 protocol."""
 
@@ -32,10 +33,9 @@ def read_header_from_binary_message(ws_msg: bytes) -> Optional[Dict]:
     except Exception:
         return
 
+
 if JUPYTER_SERVER_2:
     SUPPORTED_SUBPROTOCOL = ["v1.kernel.websocket.jupyter.org"]
-
-
 
     class VoilaKernelWebsocketHandler(WebsocketHandler):
 
