@@ -190,7 +190,6 @@ class VoilaHandler(BaseVoilaHandler):
                 return
             mathjax_config = self.settings.get("mathjax_config")
             mathjax_url = self.settings.get("mathjax_url")
-
             page_config_kwargs = {
                 "base_url": self.base_url,
                 "settings": self.settings,
@@ -206,6 +205,7 @@ class VoilaHandler(BaseVoilaHandler):
                     **page_config_kwargs,
                     notebook_path=notebook_path,
                 )
+            print('vvvvvvvssvv', page_config)
 
             gen = NotebookRenderer(
                 request_handler=self,

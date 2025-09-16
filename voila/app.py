@@ -738,13 +738,13 @@ class Voila(Application):
             [
                 (
                     url_path_join(
-                        self.server_url, r"/api/kernels/%s" % _kernel_id_regex
+                        self.server_url, r"/voila/api/kernels/%s" % _kernel_id_regex
                     ),
                     KernelHandler,
                 ),
                 (
                     url_path_join(
-                        self.server_url, r"/api/kernels/%s/channels" % _kernel_id_regex
+                        self.server_url, r"/voila/api/kernels/%s/channels" % _kernel_id_regex
                     ),
                     VoilaKernelWebsocketHandler,
                 ),

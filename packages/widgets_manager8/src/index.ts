@@ -41,7 +41,8 @@ const widgetManager: JupyterFrontEndPlugin<IJupyterWidgetRegistry> = {
         'The Voila Widget Manager plugin must be activated in a VoilaApp'
       );
     }
-    const baseUrl = PageConfig.getBaseUrl();
+    const baseUrl = PageConfig.getBaseUrl() + 'voila/';
+    console.log('bsssase url', baseUrl);
     const kernelId = PageConfig.getOption('kernelId');
     const serverSettings = ServerConnection.makeSettings({ baseUrl });
 
@@ -73,7 +74,7 @@ const widgetManager: JupyterFrontEndPlugin<IJupyterWidgetRegistry> = {
       const xsrfToken = (matches && matches[1]) || '';
       data.append('_xsrf', xsrfToken);
       window.navigator.sendBeacon(
-        `${baseUrl}voila/api/shutdown/${kernel.id}`,
+        `${baseUrl}api/shutdown/${kernel.id}`,
         data
       );
       kernel.dispose();
