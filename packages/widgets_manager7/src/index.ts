@@ -185,7 +185,7 @@ const widgetManager: JupyterFrontEndPlugin<IJupyterWidgetRegistry> = {
       const xsrfToken = (matches && matches[1]) || '';
       data.append('_xsrf', xsrfToken);
       window.navigator.sendBeacon(
-        `${baseUrl}voila/api/shutdown/${kernel.id}`,
+        `${baseUrl}voila/api/shutdown/${kernel.id}?_xsrf=${xsrfToken}`,
         data
       );
       kernel.dispose();

@@ -163,7 +163,9 @@ export function createSkeleton(): void {
     </div>`;
   const elements = document.querySelectorAll('[cell-index]');
   elements.forEach((it) => {
-    const codeCell = it.getElementsByClassName('jp-CodeCell').item(0);
+    const codeCell =
+      it.getElementsByClassName('jp-CodeCell').item(0) ||
+      it.getElementsByClassName('code_cell rendered').item(0); // for classic template
     if (codeCell) {
       const element = document.createElement('div');
       element.className = 'voila-skeleton-container';

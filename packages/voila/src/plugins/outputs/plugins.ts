@@ -110,10 +110,13 @@ export const renderOutputsProgressivelyPlugin: JupyterFrontEndPlugin<void> = {
     }
 
     const cells = document.querySelectorAll('[cell-index]');
+    console.log('cells', cells);
     const cellsNumber = cells.length;
     for (let cellIdx = 0; cellIdx < cellsNumber; cellIdx++) {
       const el = cells.item(cellIdx);
-      const codeCell = el.getElementsByClassName('jp-CodeCell').item(0);
+      const codeCell =
+        el.getElementsByClassName('jp-CodeCell').item(0) ||
+        el.getElementsByClassName('code_cell rendered').item(0); // for classic template;
       if (codeCell) {
         // codeCell.classList.remove('jp-mod-noOutputs', 'jp-mod-noInput');
 
