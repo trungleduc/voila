@@ -117,7 +117,6 @@ export const renderOutputsProgressivelyPlugin: JupyterFrontEndPlugin<void> = {
         el.getElementsByClassName('jp-CodeCell').item(0) ||
         el.getElementsByClassName('code_cell').item(0); // for classic template;
       if (codeCell) {
-
         const { area } = createOutputArea({ rendermime, parent: codeCell });
         const source = `${cellIdx}`;
         executeCode(source, area, widgetManager.kernel).then((future) => {
